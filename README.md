@@ -4,7 +4,7 @@ In this repository I used tools to complete. in this Assgnemtn is depend on docu
 - Doxygen
 - Jypter
 - Sphinx
-and did some statistics Analysis of Assignment
+- statistics Analysis of Assignment
 
 
 # Doxygen
