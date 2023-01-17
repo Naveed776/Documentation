@@ -1,0 +1,290 @@
+\hypertarget{_r_t__assignment3_8cpp}{}\doxysection{src/\+R\+T\+\_\+assignment3.cpp File Reference}
+\label{_r_t__assignment3_8cpp}\index{src/RT\_assignment3.cpp@{src/RT\_assignment3.cpp}}
+
+
+Final assignment\+: controller for a mobile robot using R\+Viz and Gazebo.  
+
+
+{\ttfamily \#include \char`\"{}ros/ros.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}geometry\+\_\+msgs/\+Twist.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sensor\+\_\+msgs/\+Laser\+Scan.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}actionlib\+\_\+msgs/\+Goal\+I\+D.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}move\+\_\+base\+\_\+msgs/\+Move\+Base\+Action\+Goal.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}move\+\_\+base\+\_\+msgs/\+Move\+Base\+Action\+Feedback.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+Include dependency graph for R\+T\+\_\+assignment3.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_r_t__assignment3_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a8c6bbc0f7823c7d3c2e3cfaf13f6b339}\label{_r_t__assignment3_8cpp_a8c6bbc0f7823c7d3c2e3cfaf13f6b339}} 
+\#define {\bfseries Goal\+\_\+th}~0.\+5
+\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a4410033681275279cc4da9eefbd56ec1}\label{_r_t__assignment3_8cpp_a4410033681275279cc4da9eefbd56ec1}} 
+\#define {\bfseries D\+\_\+th}~0.\+5
+\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a3eda6c33791919342f30087bf700384b}\label{_r_t__assignment3_8cpp_a3eda6c33791919342f30087bf700384b}} 
+\#define {\bfseries Timeout}~180000000
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_r_t__assignment3_8cpp_a96f987620362babd4b543eec8604f310}{displaytarget}} ()
+\begin{DoxyCompactList}\small\item\em This function print on display to define the actual target if a target has been set. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_r_t__assignment3_8cpp_a026e171e21d3ca88ed2da6fae0164914}{settarget}} ()
+\begin{DoxyCompactList}\small\item\em define for the new target taken from user \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{_r_t__assignment3_8cpp_a1ab833036b8cf79a606880e0db2144aa}{canceltarget}} ()
+\begin{DoxyCompactList}\small\item\em define that cancel the target \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_r_t__assignment3_8cpp_a913cb968dfcc5c46a0f9f956636691cd}{current\+Situation}} (const move\+\_\+base\+\_\+msgs\+::\+Move\+Base\+Action\+Feedback\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em currentsituation define the status and check if there is any target is been reached update the actual goal id and cancelthe actual targetif time is runout \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_afc4f8033f7eb9a59ce8de90f6f257acb}\label{_r_t__assignment3_8cpp_afc4f8033f7eb9a59ce8de90f6f257acb}} 
+void \mbox{\hyperlink{_r_t__assignment3_8cpp_afc4f8033f7eb9a59ce8de90f6f257acb}{Maintarget}} (const move\+\_\+base\+\_\+msgs\+::\+Move\+Base\+Action\+Goal\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em it describe the golbal varaible the define the actual target \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_ab9497364475f01865457f789b4dce626}\label{_r_t__assignment3_8cpp_ab9497364475f01865457f789b4dce626}} 
+void \mbox{\hyperlink{_r_t__assignment3_8cpp_ab9497364475f01865457f789b4dce626}{Velocity}} (const geometry\+\_\+msgs\+::\+Twist\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em This function is called whenever the teleop twist keyboard want to change the robot velocity If the robot isn\textquotesingle{}t in manual driving, the message is ignored. If the robot is in manual driving, but driving assistence is disabled, the message is sent to the cmd\+\_\+vel topic If the robot is in manual driving and driving assistence is enabled, the message is saved in a global variable and it will be corrected by the driving assistence before being published. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{_r_t__assignment3_8cpp_a8f3949f97be70b86441044dd5b326821}{checking\+\_\+distance}} (double range\mbox{[}$\,$\mbox{]}, int size)
+\item 
+void \mbox{\hyperlink{_r_t__assignment3_8cpp_a2977d7a08e05aafaa88cb8f12aaa9002}{drivinginstructor}} (const sensor\+\_\+msgs\+::\+Laser\+Scan\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em This function is called whenever a message from Laser\+Scan topic arrives. If driving assistence is disabled the function does nothing. If the driving assistence is enabled\+:divides the distances in input in 5 sectors If there is a close wall in the direction where the user wants the robot to go, it prints a warning on the console and stops the robot. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_r_t__assignment3_8cpp_a6f5aba4470ddbdda73d96ebfde2ff38e}{drivingmanually}} ()
+\begin{DoxyCompactList}\small\item\em This function is called when the user choose the manual driving. It changes the driving mode and enable/disable driving assistence if the user press \textquotesingle{}a\textquotesingle{}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_r_t__assignment3_8cpp_a1c52eb1767b32ba80da7e1214bcbec69}{choice}} ()
+\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{_r_t__assignment3_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+int {\bfseries main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_ac65452c17d5e30bf22ca6787ded9cf15}\label{_r_t__assignment3_8cpp_ac65452c17d5e30bf22ca6787ded9cf15}} 
+actionlib\+\_\+msgs\+::\+Goal\+ID \mbox{\hyperlink{_r_t__assignment3_8cpp_ac65452c17d5e30bf22ca6787ded9cf15}{cancel\+\_\+target}}
+\begin{DoxyCompactList}\small\item\em Goal to cancel message. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a289767f881bb7217ae56e0703a5f35b3}\label{_r_t__assignment3_8cpp_a289767f881bb7217ae56e0703a5f35b3}} 
+ros\+::\+Publisher \mbox{\hyperlink{_r_t__assignment3_8cpp_a289767f881bb7217ae56e0703a5f35b3}{pub\+\_\+velocity}}
+\begin{DoxyCompactList}\small\item\em Publish on topic/cmd\+\_\+vel. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a839e7148b6995c1ca2f50230622db35a}\label{_r_t__assignment3_8cpp_a839e7148b6995c1ca2f50230622db35a}} 
+ros\+::\+Publisher \mbox{\hyperlink{_r_t__assignment3_8cpp_a839e7148b6995c1ca2f50230622db35a}{pub\+\_\+target}}
+\begin{DoxyCompactList}\small\item\em Define publisher on topic /move\+\_\+base/goal. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_aee417cd37ba86e0def39ddf6d3a892c6}\label{_r_t__assignment3_8cpp_aee417cd37ba86e0def39ddf6d3a892c6}} 
+ros\+::\+Publisher \mbox{\hyperlink{_r_t__assignment3_8cpp_aee417cd37ba86e0def39ddf6d3a892c6}{pub\+\_\+off}}
+\begin{DoxyCompactList}\small\item\em Define publisher on topic /move\+\_\+base/cancel. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a2b38da70bc534912b1a64a4ef9d4685d}\label{_r_t__assignment3_8cpp_a2b38da70bc534912b1a64a4ef9d4685d}} 
+float \mbox{\hyperlink{_r_t__assignment3_8cpp_a2b38da70bc534912b1a64a4ef9d4685d}{x\+\_\+target}}
+\begin{DoxyCompactList}\small\item\em Goal coordinate x. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a046bc8e8769567b4762db66344df6070}\label{_r_t__assignment3_8cpp_a046bc8e8769567b4762db66344df6070}} 
+float \mbox{\hyperlink{_r_t__assignment3_8cpp_a046bc8e8769567b4762db66344df6070}{y\+\_\+target}}
+\begin{DoxyCompactList}\small\item\em Goal coordinate y. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a1203d8c4f4455d33246ce920ab5aa05a}\label{_r_t__assignment3_8cpp_a1203d8c4f4455d33246ce920ab5aa05a}} 
+bool \mbox{\hyperlink{_r_t__assignment3_8cpp_a1203d8c4f4455d33246ce920ab5aa05a}{target}} = false
+\begin{DoxyCompactList}\small\item\em Boolean variable is used for specify the if there is any target. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a8879db39f219b1928b305cb04e428ee0}\label{_r_t__assignment3_8cpp_a8879db39f219b1928b305cb04e428ee0}} 
+bool \mbox{\hyperlink{_r_t__assignment3_8cpp_a8879db39f219b1928b305cb04e428ee0}{drive}} = false
+\begin{DoxyCompactList}\small\item\em Boolean variable is used for specify for manual driving on. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_ab2c371d0525b904b84a40de538a33101}\label{_r_t__assignment3_8cpp_ab2c371d0525b904b84a40de538a33101}} 
+bool \mbox{\hyperlink{_r_t__assignment3_8cpp_ab2c371d0525b904b84a40de538a33101}{instructor}} = false
+\begin{DoxyCompactList}\small\item\em Boolean variable is used for specify for driving assitsance is on. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a05aa9a517645a7b42c6ad780f5fbf40e}\label{_r_t__assignment3_8cpp_a05aa9a517645a7b42c6ad780f5fbf40e}} 
+geometry\+\_\+msgs\+::\+Twist \mbox{\hyperlink{_r_t__assignment3_8cpp_a05aa9a517645a7b42c6ad780f5fbf40e}{stop}}
+\begin{DoxyCompactList}\small\item\em stop the robot \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a73a93f6d0b0196e972032cf256c432b0}\label{_r_t__assignment3_8cpp_a73a93f6d0b0196e972032cf256c432b0}} 
+geometry\+\_\+msgs\+::\+Twist \mbox{\hyperlink{_r_t__assignment3_8cpp_a73a93f6d0b0196e972032cf256c432b0}{new\+\_\+velocity}}
+\begin{DoxyCompactList}\small\item\em checking driving assitance befor being published \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a67668278838ab1eb0065ef9218c8de00}\label{_r_t__assignment3_8cpp_a67668278838ab1eb0065ef9218c8de00}} 
+char \mbox{\hyperlink{_r_t__assignment3_8cpp_a67668278838ab1eb0065ef9218c8de00}{m}} = \textquotesingle{}a\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em Variable used to store the user commands. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{_r_t__assignment3_8cpp_afd0d68c6d31ff249f3ae8662162663c3}{id}} = \char`\"{}\char`\"{}
+\begin{DoxyCompactList}\small\item\em the time fuction is used to measured the time to reach target \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_acc1669f841e2a702e4883dfc3a2afe29}\label{_r_t__assignment3_8cpp_acc1669f841e2a702e4883dfc3a2afe29}} 
+std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point \mbox{\hyperlink{_r_t__assignment3_8cpp_acc1669f841e2a702e4883dfc3a2afe29}{time\+\_\+start}}
+\begin{DoxyCompactList}\small\item\em start time for target \end{DoxyCompactList}\item 
+std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point \mbox{\hyperlink{_r_t__assignment3_8cpp_a57e961fdbf4460ca179e15a2bf16d310}{time\+\_\+end}}
+\begin{DoxyCompactList}\small\item\em computed the end time with the help of start time to reache the specified target \end{DoxyCompactList}\item 
+const char $\ast$ {\bfseries menu}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Final assignment\+: controller for a mobile robot using R\+Viz and Gazebo. 
+
+\begin{DoxyAuthor}{Author}
+Afridi Naveed Manzoor 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+06/07/2022 
+\end{DoxyDate}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em G\+O\+A\+L\+\_\+\+TH} & Define the threshold distance between robot and consider the target \\
+\hline
+\mbox{\texttt{ in}}  & {\em D\+\_\+\+TH} & Define the threshold set between the robt and a wall if it go near the wall it will create risk \\
+\hline
+\mbox{\texttt{ in}}  & {\em T\+I\+M\+E\+O\+UT} & Define reachable time if the robot doesn\textquotesingle{}t reach it within 3 minutes its considered that the robot not reached at the certian place\\
+\hline
+\end{DoxyParams}
+Subscribes to\+: ~\newline
+ ° /move\+\_\+base/feedback it describe the current status of the robot ° /move\+\_\+base/goal It describe the actual target ° /prov\+\_\+cmd\+\_\+vel It contain the velocity command to check the robot is go to the assistance mode ° /scan It takse a data from laser scanner and measured the distance
+
+Publishes to\+: ~\newline
+ ° /move\+\_\+base/goal It define the actual atrget ° /move\+\_\+base/cancel It define cancel the target by specfied by an ID ° /cmd\+\_\+vel It confimred the velocity
+
+Description \+:
+
+This node allows the user to control a mobile robot in 3 different modes\+: The user can choose one of three methods to command the robot (autonomously, manually, or in assisted driving mode).
+
+The robot construct a map and avoide walls by using the laser scanner sensors. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a1ab833036b8cf79a606880e0db2144aa}\label{_r_t__assignment3_8cpp_a1ab833036b8cf79a606880e0db2144aa}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!canceltarget@{canceltarget}}
+\index{canceltarget@{canceltarget}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{canceltarget()}{canceltarget()}}
+{\footnotesize\ttfamily bool canceltarget (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+define that cancel the target 
+
+\begin{DoxyReturn}{Returns}
+True when the target is cancelled false when there is no goal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a8f3949f97be70b86441044dd5b326821}\label{_r_t__assignment3_8cpp_a8f3949f97be70b86441044dd5b326821}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!checking\_distance@{checking\_distance}}
+\index{checking\_distance@{checking\_distance}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{checking\_distance()}{checking\_distance()}}
+{\footnotesize\ttfamily double checking\+\_\+distance (\begin{DoxyParamCaption}\item[{double}]{range\mbox{[}$\,$\mbox{]},  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+This function receives as input an array of distances and return the smallest \mbox{\Hypertarget{_r_t__assignment3_8cpp_a1c52eb1767b32ba80da7e1214bcbec69}\label{_r_t__assignment3_8cpp_a1c52eb1767b32ba80da7e1214bcbec69}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!choice@{choice}}
+\index{choice@{choice}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{choice()}{choice()}}
+{\footnotesize\ttfamily void choice (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\textbackslash{}brief\+This function print the main menu on the screen and calls the functions needed for the selected operation \mbox{\Hypertarget{_r_t__assignment3_8cpp_a913cb968dfcc5c46a0f9f956636691cd}\label{_r_t__assignment3_8cpp_a913cb968dfcc5c46a0f9f956636691cd}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!currentSituation@{currentSituation}}
+\index{currentSituation@{currentSituation}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{currentSituation()}{currentSituation()}}
+{\footnotesize\ttfamily void current\+Situation (\begin{DoxyParamCaption}\item[{const move\+\_\+base\+\_\+msgs\+::\+Move\+Base\+Action\+Feedback\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})}
+
+
+
+currentsituation define the status and check if there is any target is been reached update the actual goal id and cancelthe actual targetif time is runout 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & publish on move\+\_\+base/feedback topic. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void value-\/returning functions except they do not return a value after the function executes.
+\end{DoxyReturn}
+This is used for update the new target if there is atrget check the distance ans start the time if the robot reached the target computed this if the time is greather then sp automatically cancel it. \mbox{\Hypertarget{_r_t__assignment3_8cpp_a96f987620362babd4b543eec8604f310}\label{_r_t__assignment3_8cpp_a96f987620362babd4b543eec8604f310}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!displaytarget@{displaytarget}}
+\index{displaytarget@{displaytarget}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{displaytarget()}{displaytarget()}}
+{\footnotesize\ttfamily void displaytarget (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+This function print on display to define the actual target if a target has been set. 
+
+\begin{DoxyReturn}{Returns}
+void value-\/returning functions except they do not return a value after the function executesl
+\end{DoxyReturn}
+This function print on display to define the actual target if goal has been set, otherwise it displays NaN as target\textquotesingle{}s coordinates \mbox{\Hypertarget{_r_t__assignment3_8cpp_a2977d7a08e05aafaa88cb8f12aaa9002}\label{_r_t__assignment3_8cpp_a2977d7a08e05aafaa88cb8f12aaa9002}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!drivinginstructor@{drivinginstructor}}
+\index{drivinginstructor@{drivinginstructor}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{drivinginstructor()}{drivinginstructor()}}
+{\footnotesize\ttfamily void drivinginstructor (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::\+Laser\+Scan\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})}
+
+
+
+This function is called whenever a message from Laser\+Scan topic arrives. If driving assistence is disabled the function does nothing. If the driving assistence is enabled\+:divides the distances in input in 5 sectors If there is a close wall in the direction where the user wants the robot to go, it prints a warning on the console and stops the robot. 
+
+$<$get array by laserscan
+
+$<$fill sector arrays\mbox{\Hypertarget{_r_t__assignment3_8cpp_a6f5aba4470ddbdda73d96ebfde2ff38e}\label{_r_t__assignment3_8cpp_a6f5aba4470ddbdda73d96ebfde2ff38e}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!drivingmanually@{drivingmanually}}
+\index{drivingmanually@{drivingmanually}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{drivingmanually()}{drivingmanually()}}
+{\footnotesize\ttfamily void drivingmanually (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+This function is called when the user choose the manual driving. It changes the driving mode and enable/disable driving assistence if the user press \textquotesingle{}a\textquotesingle{}. 
+
+$<$Change driving mode\mbox{\Hypertarget{_r_t__assignment3_8cpp_a026e171e21d3ca88ed2da6fae0164914}\label{_r_t__assignment3_8cpp_a026e171e21d3ca88ed2da6fae0164914}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!settarget@{settarget}}
+\index{settarget@{settarget}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{settarget()}{settarget()}}
+{\footnotesize\ttfamily void settarget (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+define for the new target taken from user 
+
+\begin{DoxyReturn}{Returns}
+void value-\/returning functions except they do not return a value after the function executes
+\end{DoxyReturn}
+This tell the user to enter the new target coordinates after that send a message to the goal topic and take the start time $<$Take new goal from the user
+
+$<$Set new coordinates to reach
+
+$<$Publish new goal
+
+$<$Set the starting time
+
+$<$There is a goal
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_afd0d68c6d31ff249f3ae8662162663c3}\label{_r_t__assignment3_8cpp_afd0d68c6d31ff249f3ae8662162663c3}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!id@{id}}
+\index{id@{id}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily std\+::string id = \char`\"{}\char`\"{}}
+
+
+
+the time fuction is used to measured the time to reach target 
+
+Goal ID \mbox{\Hypertarget{_r_t__assignment3_8cpp_a73b3925d8c0a45941aa0f8cc5f4d8b8a}\label{_r_t__assignment3_8cpp_a73b3925d8c0a45941aa0f8cc5f4d8b8a}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!menu@{menu}}
+\index{menu@{menu}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{menu}{menu}}
+{\footnotesize\ttfamily const char$\ast$ menu}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= R\textcolor{stringliteral}{"(}}
+\DoxyCodeLine{\textcolor{stringliteral}{   Read instruction for control Robot}}
+\DoxyCodeLine{\textcolor{stringliteral}{   -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\textcolor{stringliteral}{   -\/ press 0 Quit for the system }}
+\DoxyCodeLine{\textcolor{stringliteral}{   -\/ prees 1 Insert your new value of the target }}
+\DoxyCodeLine{\textcolor{stringliteral}{   -\/ press 2 Cancel your current driving target}}
+\DoxyCodeLine{\textcolor{stringliteral}{   -\/ press 3 for the Manual driving}}
+\DoxyCodeLine{\textcolor{stringliteral}{   -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\textcolor{stringliteral}{)"}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{_r_t__assignment3_8cpp_a57e961fdbf4460ca179e15a2bf16d310}\label{_r_t__assignment3_8cpp_a57e961fdbf4460ca179e15a2bf16d310}} 
+\index{RT\_assignment3.cpp@{RT\_assignment3.cpp}!time\_end@{time\_end}}
+\index{time\_end@{time\_end}!RT\_assignment3.cpp@{RT\_assignment3.cpp}}
+\doxysubsubsection{\texorpdfstring{time\_end}{time\_end}}
+{\footnotesize\ttfamily std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point time\+\_\+end}
+
+
+
+computed the end time with the help of start time to reache the specified target 
+
+M\+E\+NU show for the user that control the robot 
