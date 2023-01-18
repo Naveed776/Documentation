@@ -3,7 +3,6 @@
 In this repository I used tools to complete. in this Assgnemtn is depend on documentation so i Can work on
 - Doxygen
 - Jypter
-- Sphinx
 - statistics Analysis of Assignment
 
 
