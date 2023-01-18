@@ -20,23 +20,6 @@ various elements by means of include dependency graphs, inheritance diagrams, an
 - `sudo apt-get install –y doxygen`
 - `sudo apt-get install doxygen-gui`
 
-
-# Sphinx
-
-Sphinx is a documentation generator written and used by the Python community.It is written in Python, and also used in other environments
-Sphinx uses reStructuredText as its markup language.
-## How to Install
-- `sudo) apt-get install python3-sphinx`
-
-- `pip3 install breathe`
-
-- `pip3 install sphinx-rtd-theme`
-
-Once done that, you can go in the directory where you have the code
-to comment, and run:
--`sphinx-quickstart`
-This will start an user interface for configuring the environment.
-
 # Jupyter
 
 The Jupyter Notebook is an open source web application that you can use to create and share documents that contain live code, equations, visualizations, and text. Jupyter Notebook is maintained by the people at Project Jupyter. Project Jupyter is a non-profit, open-source project, born out of the IPython Project in 2014 as it evolved to support interactive data science and scientific computing across all programming
